@@ -9,10 +9,19 @@ import {
 } from "@xyflow/react";
 import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
+import CalendarWidget from "./components/CalendarWidget";
+
+const nodeTypes = {
+  calender: CalendarWidget,
+};
 
 const initialNodes: Node[] = [
-  { id: "1", position: { x: 100, y: 100 }, data: { label: "1" } },
-  { id: "2", position: { x: 200, y: 200 }, data: { label: "2" } },
+  {
+    id: "id_calendar",
+    position: { x: 100, y: 100 },
+    data: {},
+    type: "calender",
+  },
 ];
 
 const ClassBoard = () => {
@@ -25,7 +34,11 @@ const ClassBoard = () => {
   );
 
   return (
-    <ReactFlow nodes={nodes} onNodesChange={onNodesChange}>
+    <ReactFlow
+      nodes={nodes}
+      nodeTypes={nodeTypes}
+      onNodesChange={onNodesChange}
+    >
       <MiniMap />
       <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
     </ReactFlow>
