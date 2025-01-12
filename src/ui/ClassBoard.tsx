@@ -6,10 +6,12 @@ import {
   Node,
   NodeChange,
   ReactFlow,
+  ReactFlowProvider,
 } from "@xyflow/react";
 import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import CalendarWidget from "./components/CalendarWidget";
+import useWidgetNodeDrag from "../hooks/UseWidgetNodeDrag";
 
 const nodeTypes = {
   calender: CalendarWidget,
@@ -24,8 +26,10 @@ const initialNodes: Node[] = [
   },
 ];
 
-const ClassBoard = () => {
+const ClassBoardFlow = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
+  const { onWidgetNodeDragStart, onWidgetNodeDrag, onWidgetNodeDragEnd } =
+    useWidgetNodeDrag();
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
@@ -38,10 +42,21 @@ const ClassBoard = () => {
       nodes={nodes}
       nodeTypes={nodeTypes}
       onNodesChange={onNodesChange}
+      onNodeDragStart={onWidgetNodeDragStart}
+      onNodeDrag={onWidgetNodeDrag}
+      onNodeDragStop={onWidgetNodeDragEnd}
     >
       <MiniMap />
       <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
     </ReactFlow>
+  );
+};
+
+const ClassBoard = () => {
+  return (
+    <ReactFlowProvider>
+      <ClassBoardFlow />
+    </ReactFlowProvider>
   );
 };
 
