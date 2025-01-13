@@ -1,12 +1,15 @@
 import { ReactNode } from "react";
 import { NodeProps } from "@xyflow/react";
 import Widget from "./common/Widget";
+import WidgetToolbar from "./common/WidgetToolbar";
 
 const minWidth = 100;
 const minHeight = 200;
+const aspectRatiosByDirection = { vertical: 8 / 16, horizontal: 16 / 8 };
 
 interface ICalendarWidgetProps extends NodeProps {
-  delete?: () => void;
+  openSettings?: () => void;
+  deleteWidget?: () => void;
 }
 
 const CalendarWidget = (props: ICalendarWidgetProps) => {
@@ -20,10 +23,15 @@ const CalendarWidget = (props: ICalendarWidgetProps) => {
 
   return (
     <>
+      <WidgetToolbar
+        onSettingsClick={props.openSettings}
+        onDeleteClick={props.deleteWidget}
+      
+      />
       <Widget
         minWidth={minWidth}
         minHeight={minHeight}
-        aspectRatiosByDirection={{ vertical: 8 / 16, horizontal: 16 / 8 }}
+        aspectRatiosByDirection={aspectRatiosByDirection}
       >
         {renderContent()}
       </Widget>
