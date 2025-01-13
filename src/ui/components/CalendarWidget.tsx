@@ -26,7 +26,6 @@ const CalendarWidget = (props: ICalendarWidgetProps) => {
       <WidgetToolbar
         onSettingsClick={props.openSettings}
         onDeleteClick={props.deleteWidget}
-      
       />
       <Widget
         minWidth={minWidth}

@@ -10,19 +10,19 @@ import {
 } from "@xyflow/react";
 import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
-import CalendarWidget from "./components/CalendarWidget";
 import useWidgetNodeDrag from "../hooks/UseWidgetNodeDrag";
+import WidgetNode from "./components/WidgetNode";
 
 const nodeTypes = {
-  calender: CalendarWidget,
+  widget: WidgetNode,
 };
 
 const initialNodes: Node[] = [
   {
-    id: "id_calendar",
+    id: "id_1",
     position: { x: 100, y: 100 },
-    data: {},
-    type: "calender",
+    data: { widgetType: "C" },
+    type: "widget",
   },
 ];
 
