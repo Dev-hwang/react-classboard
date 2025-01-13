@@ -1,11 +1,12 @@
 import { MouseEvent as ReactMouseEvent, useRef } from "react";
 import { Node, useReactFlow } from "@xyflow/react";
 import { Offset } from "../models/Offset";
+import VelocityTracker from "../utils/VelocityTracker";
 
 /** 항력 계수: 값이 작을수록 감속이 점진적으로 이루어짐 */
 const kInteractionEndFrictionCoefficient = 0.0000135;
 
-/** 감속 임계: 값이 작을수록 애니메이션이 부드럽게 작동 */
+/** 감속 임계 */
 const kEffectivelyMotionless = 10.0;
 
 function simulatePosition(position: Offset, velocity: Offset): Offset {
@@ -27,42 +28,34 @@ function simulateDuration(velocity: Offset): number {
 
 function useWidgetNodeDrag() {
   const { updateNode } = useReactFlow();
-  const lastTimestamp = useRef(0);
-  const lastPosition = useRef({ x: 0, y: 0 });
-  const lastVelocity = useRef({ x: 0, y: 0 });
+  const velocityTracker = useRef(VelocityTracker());
   const requestIdMap = useRef(new Map<string, number>()); // <nodeId, requestId>
 
   /** ReactFlow onNodeDragStart 이벤트 처리 */
   const onWidgetNodeDragStart = (_: ReactMouseEvent, node: Node) => {
-    lastTimestamp.current = Date.now();
-    lastPosition.current = node.position;
-    lastVelocity.current = { x: 0, y: 0 };
+    velocityTracker.current.reset();
+    velocityTracker.current.addPosition(Date.now(), node.position);
   };
 
   /** ReactFlow onNodeDrag 이벤트 처리 */
   const onWidgetNodeDrag = (_: ReactMouseEvent, node: Node) => {
-    // 평균 가속도 계산
-    const timestamp = Date.now();
-    const timeDelta = (timestamp - lastTimestamp.current) / 1000;
-    if (timeDelta > 0) {
-      const position = node.position;
-      const dx = position.x - lastPosition.current.x;
-      const dy = position.y - lastPosition.current.y;
-
-      lastTimestamp.current = timestamp;
-      lastPosition.current = position;
-      lastVelocity.current = { x: dx / timeDelta, y: dy / timeDelta };
-    }
+    velocityTracker.current.addPosition(Date.now(), node.position);
   };
 
   /** ReactFlow onNodeDragStop 이벤트 처리 */
   const onWidgetNodeDragEnd = (_: ReactMouseEvent, node: Node) => {
-    const endPosition = lastPosition.current;
-    const endVelocity = lastVelocity.current;
+    const endPosition = node.position;
+    const endVelocity = velocityTracker.current.getVelocity();
+    if (!endVelocity) {
+      return;
+    }
 
     // position, duration 시뮬레이션
     const simulatedPosition = simulatePosition(endPosition, endVelocity);
     const simulatedDuration = simulateDuration(endVelocity);
+    if (simulatedDuration < 0) {
+      return;
+    }
 
     // animation 요청
     setTimeout(
