@@ -10,4 +10,5 @@ export const WidgetBox = (props?: WidgetBoxProps) => css`
   justify-content: flex-start;
   align-items: stretch;
   height: 100%;
+  box-sizing: border-box;
 `;

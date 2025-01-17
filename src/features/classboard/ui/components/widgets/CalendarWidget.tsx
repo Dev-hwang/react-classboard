@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
+import ReactCalendar from "react-calendar";
 import WidgetToolbar from "../WidgetToolbar";
 import Widget from "../Widget";
 import {
@@ -6,15 +7,22 @@ import {
   calendarWidgetMinSize,
 } from "../../../../../constants/WidgetSizeConst";
 import { WidgetProps } from "../../../types/WidgetProps";
+import * as Styled from "./CalendarWidget.style";
+
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const CalendarWidget = (props: WidgetProps) => {
-  const renderContent = (): ReactNode => {
-    // const nodeWidth = props.width ?? minHeight;
-    // const nodeHeight = props.height ?? minHeight;
-    // console.log(`nodeWidth: ${nodeWidth}, nodeHeight: ${nodeHeight}`);
+  const renderContent = useMemo((): ReactNode => {
+    const nodeWidth = props.width ?? calendarWidgetMinSize.width;
+    const nodeHeight = props.height ?? calendarWidgetMinSize.height;
 
-    return <p>Calendar</p>;
-  };
+    if (nodeWidth > nodeHeight) {
+      return <NormalCalendar />;
+    }
+
+    return <SimpleCalendar />;
+  }, [props.width, props.height]);
 
   return (
     <>
@@ -33,9 +41,43 @@ const CalendarWidget = (props: WidgetProps) => {
         isSelected={props.selected}
         isDragging={props.dragging}
       >
-        {renderContent()}
+        {renderContent}
       </Widget>
     </>
+  );
+};
+
+const NormalCalendar = () => {
+  // #. 일(day) 포맷을 numeric 형태로 변환
+  const formatDay = (_locale: string | undefined, date: Date): string => {
+    return date.toLocaleString("en", { day: "numeric" });
+  };
+
+  return (
+    <Styled.NormalCalendarContainer>
+      <ReactCalendar
+        calendarType="iso8601"
+        // prevLabel={<img src=""/>}
+        // nextLabel={<img src=""/>}
+        prev2Label={null}
+        next2Label={null}
+        formatDay={formatDay}
+      />
+    </Styled.NormalCalendarContainer>
+  );
+};
+
+const SimpleCalendar = () => {
+  const date = new Date();
+
+  return (
+    <Styled.SimpleCalendarContainer>
+      <div className={"day"}>Today is {days[date.getDay()]}</div>
+      <div className={"date"}>{date.getDate()}</div>
+      <div className={"month-year"}>
+        {months[date.getMonth()]} {date.getFullYear()}
+      </div>
+    </Styled.SimpleCalendarContainer>
   );
 };
 
