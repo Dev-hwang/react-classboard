@@ -1,18 +1,18 @@
 import { ReactNode } from "react";
 import { NodeProps } from "@xyflow/react";
-import Widget from "./common/Widget";
-import WidgetToolbar from "./common/WidgetToolbar";
+import WidgetToolbar from "../WidgetToolbar";
+import Widget from "../Widget";
+import {
+  calendarWidgetAspectRatios,
+  calendarWidgetMinSize,
+} from "../../../../../constants/WidgetSizeConst";
 
-const minWidth = 100;
-const minHeight = 200;
-const aspectRatiosByDirection = { vertical: 8 / 16, horizontal: 16 / 8 };
-
-interface ICalendarWidgetProps extends NodeProps {
+interface CalendarWidgetProps extends NodeProps {
   openSettings?: () => void;
   deleteWidget?: () => void;
 }
 
-const CalendarWidget = (props: ICalendarWidgetProps) => {
+const CalendarWidget = (props: CalendarWidgetProps) => {
   const renderContent = (): ReactNode => {
     // const nodeWidth = props.width ?? minHeight;
     // const nodeHeight = props.height ?? minHeight;
@@ -28,9 +28,9 @@ const CalendarWidget = (props: ICalendarWidgetProps) => {
         onDeleteClick={props.deleteWidget}
       />
       <Widget
-        minWidth={minWidth}
-        minHeight={minHeight}
-        aspectRatiosByDirection={aspectRatiosByDirection}
+        minWidth={calendarWidgetMinSize.width}
+        minHeight={calendarWidgetMinSize.height}
+        aspectRatiosByDirection={calendarWidgetAspectRatios}
       >
         {renderContent()}
       </Widget>

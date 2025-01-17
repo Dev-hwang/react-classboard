@@ -1,5 +1,5 @@
 import "./App.css";
-import ClassBoard from "./ui/ClassBoard";
+import ClassBoard from "./features/classboard/ui/screens/ClassBoard";
 
 const App = () => {
   return (

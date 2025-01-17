@@ -2,13 +2,13 @@ import { ReactNode } from "react";
 import { useNodeId, useReactFlow } from "@xyflow/react";
 import * as Styled from "./WidgetToolbar.style.tsx";
 
-interface IWidgetToolbarProps {
+interface WidgetToolbarProps {
   items?: (ReactNode | "|")[];
   onDeleteClick?: () => void;
   onSettingsClick?: () => void;
 }
 
-const WidgetToolbar = (props: IWidgetToolbarProps) => {
+const WidgetToolbar = (props: WidgetToolbarProps) => {
   const nodeId = useNodeId();
   const { getNode } = useReactFlow();
   const node = nodeId == null ? null : getNode(nodeId);

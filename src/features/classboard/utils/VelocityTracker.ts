@@ -1,4 +1,4 @@
-import { Offset } from "../models/Offset";
+import { Offset } from "../interfaces/Offset";
 
 /** 포인터가 도중에 멈췄는지 확인하기 위한 상수 */
 const kAssumePointerMoveStoppedMilliseconds = 40;

@@ -1,6 +1,6 @@
 import { MouseEvent as ReactMouseEvent, useRef } from "react";
 import { Node, useReactFlow } from "@xyflow/react";
-import { Offset } from "../models/Offset";
+import { Offset } from "../interfaces/Offset";
 import VelocityTracker from "../utils/VelocityTracker";
 
 /** 항력 계수: 값이 작을수록 감속이 점진적으로 이루어짐 */

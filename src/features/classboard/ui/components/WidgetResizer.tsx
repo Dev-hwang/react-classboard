@@ -8,7 +8,7 @@ import {
 } from "@xyflow/system";
 import WidgetResizeControl from "./WidgetResizeControl";
 
-interface IWidgetResizerProps {
+interface WidgetResizerProps {
   nodeId?: string;
   handleClassName?: string;
   handleStyle?: CSSProperties;
@@ -40,7 +40,7 @@ const WidgetResizer = ({
   onResizeStart,
   onResize,
   onResizeEnd,
-}: IWidgetResizerProps) => {
+}: WidgetResizerProps) => {
   if (!isVisible) {
     return null;
   }

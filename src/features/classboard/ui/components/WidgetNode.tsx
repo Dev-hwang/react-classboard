@@ -1,7 +1,7 @@
 import { NodeProps } from "@xyflow/react";
 import { ReactNode } from "react";
 import { WidgetType } from "../../types/WidgetType";
-import CalendarWidget from "./CalendarWidget";
+import CalendarWidget from "./widgets/CalendarWidget";
 
 interface IWidgetNodeProps extends NodeProps {
   data: {

@@ -20,9 +20,9 @@ import {
 import cc from "classcat";
 import CustomXYResizer, {
   CustomXYResizerInstance,
-} from "../../../utils/CustomXYResizer";
+} from "../../utils/CustomXYResizer";
 
-interface IWidgetResizeControlProps {
+interface WidgetResizeControlProps {
   nodeId?: string;
   position?: ControlPosition;
   variant?: ResizeControlVariant;
@@ -58,7 +58,7 @@ const WidgetResizeControl = ({
   onResizeStart,
   onResize,
   onResizeEnd,
-}: IWidgetResizeControlProps) => {
+}: WidgetResizeControlProps) => {
   const contextNodeId = useNodeId();
   const id = typeof nodeId === "string" ? nodeId : contextNodeId;
   const store = useStoreApi();

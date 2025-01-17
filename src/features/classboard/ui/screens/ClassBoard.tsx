@@ -10,8 +10,8 @@ import {
 } from "@xyflow/react";
 import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
-import useWidgetNodeDrag from "../hooks/UseWidgetNodeDrag";
-import WidgetNode from "./components/WidgetNode";
+import WidgetNode from "../components/WidgetNode";
+import useWidgetNodeDrag from "../../hooks/useWidgetNodeDrag";
 
 const nodeTypes = {
   widget: WidgetNode,
