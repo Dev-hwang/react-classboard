@@ -1,27 +1,45 @@
-import { ReactNode } from "react";
-import { useNodeId, useReactFlow } from "@xyflow/react";
+import { CSSProperties, memo, ReactNode } from "react";
 import * as Styled from "./Widget.style.tsx";
 import WidgetResizer from "./WidgetResizer.tsx";
 
 interface WidgetProps {
+  currentWidth?: number;
+  currentHeight?: number;
   minWidth: number;
   minHeight: number;
   maxWidth?: number;
   maxHeight?: number;
   aspectRatiosByDirection?: { vertical: number; horizontal: number };
+  isSelected?: boolean;
+  isDragging?: boolean;
   children?: ReactNode;
 }
 
-const Widget = (props: WidgetProps) => {
-  const nodeId = useNodeId();
-  const { getNode } = useReactFlow();
-  const node = nodeId == null ? null : getNode(nodeId);
-
-  const isSelected = node?.selected ?? false;
-  const isDragging = node?.dragging ?? false;
+const Widget = memo(function (props: WidgetProps) {
+  const isSelected = props.isSelected ?? false;
+  const isDragging = props.isDragging ?? false;
 
   const shouldResize = (): boolean => {
     return isSelected && !isDragging;
+  };
+
+  const calculateInlineStyle = (): CSSProperties => {
+    const { currentWidth, currentHeight } = props;
+    if (currentWidth == null || currentHeight == null) {
+      return {};
+    }
+
+    const minHeight = props.minHeight;
+    const scale = currentHeight / minHeight;
+    const width = currentWidth / scale;
+
+    return {
+      transform: `scale(${scale})`,
+      transformOrigin: "left top",
+      display: "inline-block",
+      width: width,
+      height: minHeight,
+    };
   };
 
   return (
@@ -40,9 +58,9 @@ const Widget = (props: WidgetProps) => {
         isVisible={isSelected}
         shouldResize={shouldResize}
       />
-      {props.children}
+      <div style={calculateInlineStyle()}>{props.children}</div>
     </Styled.WidgetContainer>
   );
-};
+});
 
 export default Widget;

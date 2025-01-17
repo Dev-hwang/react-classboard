@@ -3,26 +3,26 @@ import { ReactNode } from "react";
 import { WidgetType } from "../../types/WidgetType";
 import CalendarWidget from "./widgets/CalendarWidget";
 
-interface IWidgetNodeProps extends NodeProps {
+interface WidgetNodeProps extends NodeProps {
   data: {
     widgetType: WidgetType;
   };
 }
 
-const WidgetNode = (props: IWidgetNodeProps) => {
-  const openSettings = () => {
+const WidgetNode = (props: WidgetNodeProps) => {
+  const handleSettingsClick = () => {
     console.log("openSettings");
   };
 
-  const deleteWidget = () => {
+  const handleDeleteClick = async () => {
     console.log("deleteWidget");
   };
 
   const renderContent = (): ReactNode => {
     const commonProps = {
       ...props,
-      openSettings: openSettings,
-      deleteWidget: deleteWidget,
+      onSettingsClick: handleSettingsClick,
+      onDeleteClick: handleDeleteClick,
     };
 
     switch (props.data.widgetType) {

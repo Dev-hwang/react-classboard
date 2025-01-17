@@ -12,6 +12,7 @@ import { useCallback, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import WidgetNode from "../components/WidgetNode";
 import useWidgetNodeDrag from "../../hooks/useWidgetNodeDrag";
+import { calendarWidgetInitialSize } from "../../../../constants/WidgetSizeConst";
 
 const nodeTypes = {
   widget: WidgetNode,
@@ -21,6 +22,7 @@ const initialNodes: Node[] = [
   {
     id: "id_1",
     position: { x: 100, y: 100 },
+    ...calendarWidgetInitialSize,
     data: { widgetType: "C" },
     type: "widget",
   },

@@ -1,5 +1,6 @@
 import { NodeToolbar } from "@xyflow/react";
 import styled from "styled-components";
+import { fadeIn } from "../../../../styles/animation/fade";
 
 export const CustomNodeToolbar = styled(NodeToolbar)<{
   $isSelected: boolean;
@@ -7,26 +8,16 @@ export const CustomNodeToolbar = styled(NodeToolbar)<{
 }>`
   position: relative;
   ${(props) => props.$isDragging && "display: none;"}
-  animation: fadeIn 0.3s forwards;
+  animation: ${fadeIn} 0.3s;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
 
   button {
     padding: 8px;
-    background-color: white;
 
     &:hover {
       background-color: orange;
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
     }
   }
 `;

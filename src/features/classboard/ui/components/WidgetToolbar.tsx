@@ -1,20 +1,17 @@
 import { ReactNode } from "react";
-import { useNodeId, useReactFlow } from "@xyflow/react";
 import * as Styled from "./WidgetToolbar.style.tsx";
 
 interface WidgetToolbarProps {
   items?: (ReactNode | "|")[];
+  isSelected?: boolean;
+  isDragging?: boolean;
   onDeleteClick?: () => void;
   onSettingsClick?: () => void;
 }
 
 const WidgetToolbar = (props: WidgetToolbarProps) => {
-  const nodeId = useNodeId();
-  const { getNode } = useReactFlow();
-  const node = nodeId == null ? null : getNode(nodeId);
-
-  const isSelected = node?.selected ?? false;
-  const isDragging = node?.dragging ?? false;
+  const isSelected = props.isSelected ?? false;
+  const isDragging = props.isDragging ?? false;
 
   return (
     <Styled.CustomNodeToolbar
